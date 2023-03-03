@@ -1,0 +1,68 @@
+{
+  "name": "uzdevid/autopay-api",
+  "description": "Auto Payment System",
+  "keywords": [
+    "AutoPay"
+  ],
+  "homepage": "https://autopay.uz",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "source": "https://github.com/uzdevid/autopay-api"
+  },
+  "require": {
+    "php": ">=8.0",
+    "yiisoft/yii2": "~2.0.14",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "vlucas/phpdotenv": "^5.5"
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "~2.1.0",
+    "yiisoft/yii2-gii": "~2.2.0",
+    "codeception/codeception": "^5.0",
+    "codeception/module-phpbrowser": "*",
+    "codeception/module-asserts": "*",
+    "codeception/module-rest": "^3.3"
+  },
+  "config": {
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "yii\\composer\\Installer::postInstall"
+    ],
+    "post-create-project-cmd": [
+      "yii\\composer\\Installer::postCreateProject",
+      "yii\\composer\\Installer::postInstall"
+    ]
+  },
+  "extra": {
+    "yii\\composer\\Installer::postCreateProject": {
+      "setPermission": [
+        {
+          "runtime": "0777",
+          "web/assets": "0777",
+          "yii": "0755"
+        }
+      ]
+    },
+    "yii\\composer\\Installer::postInstall": {
+      "generateCookieValidationKey": [
+        "config/web.php"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

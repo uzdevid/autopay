@@ -1,21 +1,27 @@
 name: PHP CI
 
-on:
-  push:
-    branches:
-      - main
+on: [ push ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
 
-    - name: Install dependencies
-      run: composer install --prefer-dist
+      - name: Install dependencies
+        run: composer install --prefer-dist
+
+      - name: Copy Environment file
+        run: cp .env-test .env
+
+      - name: Run app
+        run: php -S 127.0.0.1:8080 -t web &
+
+      - name: Run codeception tests
+        run: vendor/bin/codecept run
